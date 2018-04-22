@@ -10,7 +10,7 @@ public class RunnerManager : MonoBehaviour
 
     public float Difficulty { get; private set; }
 
-    float distanceTravelled = 0.0f;
+    float distanceTravelled = 0.0f;    
 
 
     float lastDistance = 0;
