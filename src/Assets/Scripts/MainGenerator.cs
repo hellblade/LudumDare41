@@ -9,7 +9,7 @@ public class MainGenerator : MonoBehaviour
     [SerializeField] RunnerManager gameManager;
     [SerializeField] GeneratorManager generatorManager;
 
-    [SerializeField] int maxDropsInRow = 3;
+    [SerializeField] int maxDropsInRow = 2;
 
     float currentLevel = 0;
     HashSet<int> holes = new HashSet<int>();
@@ -94,11 +94,14 @@ public class MainGenerator : MonoBehaviour
         // Generate
         for (int i = 0; i < amountToGenerate; i++)
         {
-            var xPosition = generatorManager.LastBlockX;
-            generatorManager.LastBlockX = xPosition + 1;
+            var xPosition = generatorManager.LastBlockX + 1;
+            generatorManager.LastBlockX = xPosition;
 
             if (holes.Contains(i))
+            {
+                generatorManager.LastBlockX += 1;
                 continue;
+            }
 
             GameObject nextBlock = null;
 

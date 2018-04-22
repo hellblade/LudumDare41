@@ -5,45 +5,81 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     bool jumpPressed;
+    bool isGrounded;
+    float velocity;
     Rigidbody2D body;
-    Collider2D collider2d;
+    
 
     float ySize;
 
-    [SerializeField] float jumpAmount = 7;
+    [SerializeField] float jumpHeight = 4;
+
+    float jumpAmount;
+    float jumpStrength = 0.0f;
+    [SerializeField] float jumpThrust = 0.05f;
+    [SerializeField] float maxJumpStrength = 2;
+
+    float gravity;
+    bool doJump = false;
+    float jumpTime;
+
+    [SerializeField] float maxJumpTime = 0.2f;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         ySize = GetComponent<SpriteRenderer>().bounds.extents.y;
+
+        gravity = Mathf.Abs(Physics2D.gravity.y);
     }
 
     void Update()
     {
-        if (!jumpPressed && Input.GetButtonDown("Jump"))
+        jumpPressed = (isGrounded && Input.GetButtonDown("Jump"));
+
+        if (jumpPressed)
         {
-            jumpPressed = true;
+            jumpTime = maxJumpTime;
         }
-        
+
+        doJump = false;
+
+        if (jumpTime > 0)
+        {
+            jumpTime -= Time.deltaTime;
+            if (Input.GetButton("Jump"))
+            {
+                jumpStrength += jumpThrust;
+                jumpStrength = Mathf.Clamp(jumpStrength, 0, maxJumpStrength);
+                jumpAmount = Mathf.Sqrt(jumpStrength * jumpHeight * gravity);
+
+                Debug.Log("Amount: " + (jumpStrength * jumpHeight * gravity));
+                doJump = true;
+            }
+        }
+        else
+        {
+            jumpStrength = 0f;
+            jumpAmount = 0f;
+        }
+
     }
 
     void FixedUpdate()
     {
         var hit = Physics2D.Raycast(transform.position, -Vector2.up, ySize + 0.1f, LayerMask.GetMask("Not Player"));
-        bool isOnGround = false;
-
-        if (hit.collider != null)
-        {
-            isOnGround = true;
-        }
-
-     
-        if (jumpPressed && isOnGround)
+        isGrounded = (hit.collider != null);
+             
+        if (doJump)
         {
             body.velocity = new Vector2(0, jumpAmount);
-            jumpPressed = false;
         }
-
-
     }
+
+    public void SetXPosition(float x)
+    {
+        var pos = transform.position;
+        pos.x = x;
+        transform.position = pos;
+    }    
 }

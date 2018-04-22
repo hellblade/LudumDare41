@@ -281,7 +281,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba517d8708218049bd45d8d46fddef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpAmount: 5
+  jumpHeight: 4
+  jumpThrust: 0.05
+  maxJumpStrength: 2
+  maxJumpTime: 0.2
 --- !u!61 &940036747
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -481,7 +484,4 @@ MonoBehaviour:
   block: {fileID: 114959345672454612, guid: e1bd14f811f88194da59de6ce41dbc63, type: 2}
   gameManager: {fileID: 1241360007}
   generatorManager: {fileID: 1839374087}
-  minVariation: -1.5
-  maxVariation: 1.5
-  minXVariation: 0
-  maxXVariation: 2
+  maxDropsInRow: 2

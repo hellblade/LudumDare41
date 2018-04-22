@@ -44,6 +44,9 @@ public class GeneratorManager : MonoBehaviour
 
         ScreenAmountX = Mathf.CeilToInt(width);
         ScreenAmountY = Mathf.CeilToInt(height);
+
+        var player = FindObjectOfType<PlayerController>();
+        player.SetXPosition(-ScreenAmountX / 2 + 5);
     }
 
 }
