@@ -22,7 +22,7 @@ public class RunnerManager : MonoBehaviour
             CurrentMoveSpeed = new Vector3(5, 0, 0);
         }
 
-        Difficulty = 10;
+        Difficulty = 1;
     }
 
     private void FixedUpdate()
@@ -31,7 +31,7 @@ public class RunnerManager : MonoBehaviour
 
         if (distanceTravelled - lastDistance > 100)
         {
-            Difficulty++;
+            Difficulty += 0.2f;
             lastDistance = distanceTravelled;
         }
     }

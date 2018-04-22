@@ -9,13 +9,11 @@ public class MainGenerator : MonoBehaviour
     [SerializeField] RunnerManager gameManager;
     [SerializeField] GeneratorManager generatorManager;
 
-    [SerializeField] float minVariation = -1.5f;
-    [SerializeField] float maxVariation = 1.5f;
-
-    [SerializeField] float minXVariation = 0;
-    [SerializeField] float maxXVariation = 2;
+    [SerializeField] int maxDropsInRow = 3;
 
     float currentLevel = 0;
+    HashSet<int> holes = new HashSet<int>();
+    HashSet<int> rises = new HashSet<int>();
 
 
     private void Awake()
@@ -47,25 +45,71 @@ public class MainGenerator : MonoBehaviour
         }
     }
 
-    void GenerateNextBlock()
+    bool canHaveDrop(int location, int amountToGenerate)
     {
-        GameObject nextBlock = null;
+        int rangeStart = Mathf.Max(0, location - maxDropsInRow);
+        int rangeEnd = Mathf.Min(amountToGenerate - 1, location + maxDropsInRow);
 
-        if (!RunnerObject.Pool.TryGet(ref nextBlock))
+        for (int range = rangeStart; range < rangeEnd - maxDropsInRow; range++)
         {
-            nextBlock = Instantiate(block).gameObject;
+            int count = 0;
+            for (int i = 0; i < maxDropsInRow; i++)
+            {
+                if (holes.Contains(range + i))
+                {
+                    count++;
+                }
+            }
+
+            if (count == maxDropsInRow)
+            {
+                return false;
+            }
         }
 
-        var xPosition = Mathf.Lerp(minXVariation, maxXVariation, Random.Range(0f, 1f));
-        var yPosition = Mathf.Lerp(minVariation, maxVariation, Random.Range(0f, 1f));
+        return true;
+    }
 
-        xPosition += generatorManager.LastBlockX;
-        yPosition += currentLevel;
+    void GenerateNextBlock()
+    {
+        holes.Clear();
+        rises.Clear();
 
-        nextBlock.transform.position = new Vector3(xPosition, yPosition, 0);
-        nextBlock.SetActive(true);
+        int amountToGenerate = (int)(generatorManager.ScreenAmountX * gameManager.Difficulty);
 
-        currentLevel = yPosition;
-        generatorManager.LastBlockX = xPosition + 1;
+        int numberOfHoles = (int)(gameManager.Difficulty * 2);
+
+        while (numberOfHoles > 0)
+        {
+            var index = Random.Range(0, amountToGenerate);
+
+            if (canHaveDrop(index, amountToGenerate))
+            {
+                numberOfHoles--;
+                holes.Add(index);
+            }
+        }
+
+
+        // Generate
+        for (int i = 0; i < amountToGenerate; i++)
+        {
+            var xPosition = generatorManager.LastBlockX;
+            generatorManager.LastBlockX = xPosition + 1;
+
+            if (holes.Contains(i))
+                continue;
+
+            GameObject nextBlock = null;
+
+            if (!RunnerObject.Pool.TryGet(ref nextBlock))
+            {
+                nextBlock = Instantiate(block).gameObject;
+            }
+
+           
+            nextBlock.transform.position = new Vector3(xPosition, currentLevel, 0);
+            nextBlock.SetActive(true);           
+        }
     }
 }
