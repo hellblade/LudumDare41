@@ -281,7 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba517d8708218049bd45d8d46fddef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpAmount: 7
+  jumpAmount: 5
 --- !u!61 &940036747
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -318,7 +318,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -354,6 +354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b801cb4fdb8fd45815f303cf7c961b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxSpeed: 20
 --- !u!4 &1241360008
 Transform:
   m_ObjectHideFlags: 0
@@ -419,6 +420,7 @@ GameObject:
   - component: {fileID: 1839374088}
   - component: {fileID: 1839374087}
   - component: {fileID: 1839374086}
+  - component: {fileID: 1839374089}
   m_Layer: 0
   m_Name: Generator
   m_TagString: Untagged
@@ -437,6 +439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da4e7dc2b7c9ff24fbf4138e352a91e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  generatorManager: {fileID: 1839374087}
   startingBlock: {fileID: 4052818261985314, guid: e1bd14f811f88194da59de6ce41dbc63,
     type: 2}
 --- !u!114 &1839374087
@@ -450,6 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9104c0f36461f9641a5daab26c28bded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 1241360007}
 --- !u!4 &1839374088
 Transform:
   m_ObjectHideFlags: 0
@@ -463,3 +467,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1839374089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1839374085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb0cbbdd57e49414d928b3c36b54e5c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  block: {fileID: 114959345672454612, guid: e1bd14f811f88194da59de6ce41dbc63, type: 2}
+  gameManager: {fileID: 1241360007}
+  generatorManager: {fileID: 1839374087}
+  minVariation: -1.5
+  maxVariation: 1.5
+  minXVariation: 0
+  maxXVariation: 2

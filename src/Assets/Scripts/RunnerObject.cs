@@ -22,9 +22,9 @@ public class RunnerObject : MonoBehaviour
 
         if (transform.position.x < -genManeger.ScreenAmountX - 2)
         {
+            gameObject.SetActive(false);
             if (storeInObjectPool)
-            {
-                gameObject.SetActive(false);
+            {              
                 Pool.Free(gameObject);
             }
             else

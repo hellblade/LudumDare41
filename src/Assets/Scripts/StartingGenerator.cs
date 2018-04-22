@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StartingGenerator : MonoBehaviour
 {
+    [SerializeField] GeneratorManager generatorManager;
     [SerializeField] Transform startingBlock;
     GeneratorManager manager;
 
@@ -18,5 +19,6 @@ public class StartingGenerator : MonoBehaviour
         {
             Instantiate(startingBlock, new Vector3(i, 0, 0), Quaternion.identity);
         }
+        generatorManager.LastBlockX = manager.ScreenAmountX * 2 - 1;
     }
 }

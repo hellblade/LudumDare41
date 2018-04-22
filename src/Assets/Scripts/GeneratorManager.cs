@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class GeneratorManager : MonoBehaviour
 {
+    [SerializeField] RunnerManager gameManager;
 
     private Vector2 resolution;
 
     public int ScreenAmountX { get; private set; }
     public int ScreenAmountY { get; private set; }
 
+    public float LastBlockX { get; set; }
+
 
     StartingGenerator startingGenerator;
 
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         handleResolutionChanges();
 
@@ -23,11 +26,9 @@ public class GeneratorManager : MonoBehaviour
         startingGenerator.Generate();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-       
-
+        LastBlockX -= gameManager.CurrentMoveSpeed.x * Time.deltaTime;
     }
 
     void handleResolutionChanges()
