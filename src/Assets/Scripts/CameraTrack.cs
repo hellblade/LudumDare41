@@ -6,9 +6,11 @@ public class CameraTrack : MonoBehaviour
 {
     [SerializeField] Transform target;
     
-    void FixedUpdate()
+    void Update()
     {
-        transform.position = target.position;
+        var newSpot = new Vector3(transform.position.x, target.position.y, transform.position.z);
+
+        transform.position = Vector3.Lerp(transform.position, newSpot, 1);
     }
 
 }
