@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float maxJumpTime = 0.2f;
 
+    bool wantToJump;
+
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
@@ -35,7 +37,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        jumpPressed = (isGrounded && Input.GetButtonDown("Jump"));
+        if (Input.GetButtonDown("Jump"))
+        {
+            wantToJump = true;
+        }
+
+        jumpPressed = (isGrounded && wantToJump);
 
         if (jumpPressed)
         {
@@ -47,14 +54,14 @@ public class PlayerController : MonoBehaviour
         if (jumpTime > 0)
         {
             jumpTime -= Time.deltaTime;
-            if (Input.GetButton("Jump"))
+            if (Input.GetButton("Jump") || wantToJump)
             {
                 jumpStrength += jumpThrust;
                 jumpStrength = Mathf.Clamp(jumpStrength, 0, maxJumpStrength);
                 jumpAmount = Mathf.Sqrt(jumpStrength * jumpHeight * gravity);
-
-                Debug.Log("Amount: " + (jumpStrength * jumpHeight * gravity));
+                
                 doJump = true;
+                wantToJump = false;
             }
         }
         else
