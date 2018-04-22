@@ -36,4 +36,9 @@ public class RunnerManager : MonoBehaviour
         }
     }
 
+    public int GetScore()
+    {
+        return Mathf.FloorToInt(distanceTravelled);
+    }
+
 }
