@@ -8,7 +8,7 @@ public class CameraTrack : MonoBehaviour
     
     void Update()
     {
-        var newSpot = new Vector3(transform.position.x, target.position.y, transform.position.z);
+        var newSpot = new Vector3(transform.position.x, Mathf.Max(0, target.position.y), transform.position.z);
 
         transform.position = Vector3.Lerp(transform.position, newSpot, 1);
     }
