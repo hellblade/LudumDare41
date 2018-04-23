@@ -118,7 +118,7 @@ public class MainGenerator : MonoBehaviour
             }
         }
 
-        int numberOfRises = Random.Range(0, Mathf.Max(generatorManager.ScreenAmountX, (int)(gameManager.Difficulty * 3)));
+        int numberOfRises = Random.Range(1, Mathf.Min(generatorManager.ScreenAmountX, (int)(gameManager.Difficulty)));
         tries = 0;
 
         while (tries++ < maxTries && numberOfRises > 0)
@@ -144,9 +144,10 @@ public class MainGenerator : MonoBehaviour
             nextBlock.transform.position = new Vector3(xPos, level, 0);
             nextBlock.SetActive(true);
 
-            plantingBox.SetIndex(plantIndex);
-            plantingBox.transform.position = new Vector3(xPos + 1, level, 0);
-            plantingBox.gameObject.SetActive(true);
+            var newBox = PlanterBox.GetPlanterObject(plantingBox);
+            newBox.SetIndex(plantIndex);
+            newBox.transform.position = new Vector3(xPos + 1, level, 0);
+            newBox.gameObject.SetActive(true);
 
             nextBlock = RunnerObject.GetRunnerObject(block.gameObject);
             nextBlock.transform.position = new Vector3(xPos + 2, level, 0);
@@ -168,11 +169,11 @@ public class MainGenerator : MonoBehaviour
 
             GameObject nextBlock = RunnerObject.GetRunnerObject(block.gameObject);
 
-            float y = currentLevel;
-
             if (rises.Contains(i))
             {
-                y += 1;
+                int change = Random.Range(0, 1) == 1 ? 1 : -1;
+
+                currentLevel = Mathf.Clamp(currentLevel + change, minLevel, maxLevel);
             }
 
             nextBlock.transform.position = new Vector3(xPosition, currentLevel, 0);

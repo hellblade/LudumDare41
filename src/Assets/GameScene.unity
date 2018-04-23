@@ -609,7 +609,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 20
   initialSpeed: 5
-  speedIncrease: 1.1
+  speedIncrease: 1.005
   distanceBeweenDifficulties: 100
   difficultySpeedUp: 0.9
   gameStarted:
@@ -644,6 +644,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  distanceBetweenPlants: 50
 --- !u!4 &1241360008
 Transform:
   m_ObjectHideFlags: 0
@@ -1037,6 +1038,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   block: {fileID: 114959345672454612, guid: e1bd14f811f88194da59de6ce41dbc63, type: 2}
+  plantingBox: {fileID: 114345749997400328, guid: ec93f70bca8fd9242aeb2adc98d2f30d,
+    type: 2}
   gameManager: {fileID: 1241360007}
   generatorManager: {fileID: 1839374087}
   maxDropsInRow: 2
+  maxLevel: 5
+  minLevel: -2

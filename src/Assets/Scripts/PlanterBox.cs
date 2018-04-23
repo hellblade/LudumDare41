@@ -10,6 +10,21 @@ public class PlanterBox : MonoBehaviour
 
     Plant plant;
 
+    static ObjectPool<PlanterBox> Pool = new ObjectPool<PlanterBox>();
+
+    public static PlanterBox GetPlanterObject(PlanterBox source)
+    {
+        PlanterBox result = null;
+
+        if (!Pool.TryGet(ref result))
+        {
+            result = Instantiate(source);
+        }
+
+        return result;
+    }
+
+
     RunnerManager gameManager;
     GeneratorManager genManager;
     int index;
@@ -73,6 +88,7 @@ public class PlanterBox : MonoBehaviour
 
         if (transform.position.x < -genManager.ScreenAmountX - 2)
         {
+            Pool.Free(this);
             gameObject.SetActive(false);
         }
     }

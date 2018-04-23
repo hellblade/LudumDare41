@@ -84,6 +84,8 @@ public class RunnerManager : MonoBehaviour
 
             currentSpeed = nextSpeed;
             nextSpeed *= speedIncrease;
+
+            nextSpeed = Mathf.Max(nextSpeed, maxSpeed);
         }
 
         float percentToNext = distanceSinceLast / nextDifficulty;
