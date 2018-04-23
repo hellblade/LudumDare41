@@ -23,7 +23,7 @@ public class SeedShop : MonoBehaviour
     {
         button.gameObject.SetActive(true);
 
-        button.interactable = (inventory.Coins > 10);
+        button.interactable = (inventory.Coins >= 10);
     }
 
     public void OnGameStarted()
@@ -39,6 +39,6 @@ public class SeedShop : MonoBehaviour
         inventory.UseCoins(10);
         inventory.AddSeed();
 
-        button.interactable = (inventory.Coins > 10);
+        button.interactable = (inventory.Coins >= 10);
     }
 }
