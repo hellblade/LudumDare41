@@ -132,31 +132,7 @@ public class MainGenerator : MonoBehaviour
             }
         }
 
-        // Create seperate platform for them
-        int plantIndex;
-        if (gameManager.ShouldCreateNextPlantBox(out plantIndex))
-        {
-            var level = currentLevel + Random.Range(3, 4);
-
-            var xPos = Random.Range(0, amountToGenerate) + generatorManager.LastBlockX;
-
-            GameObject nextBlock = RunnerObject.GetRunnerObject(block.gameObject);
-            nextBlock.transform.position = new Vector3(xPos, level - 1, 0);
-            nextBlock.SetActive(true);
-
-            var newBox = PlanterBox.GetPlanterObject(plantingBox);
-            newBox.SetIndex(plantIndex);
-            newBox.transform.position = new Vector3(xPos + 1, level, 0);
-            newBox.gameObject.SetActive(true);
-
-            nextBlock = RunnerObject.GetRunnerObject(block.gameObject);
-            nextBlock.transform.position = new Vector3(xPos + 2, level - 1, 0);
-            nextBlock.SetActive(true);
-
-            nextBlock = RunnerObject.GetRunnerObject(block.gameObject);
-            nextBlock.transform.position = new Vector3(xPos + 2, level - 1, 0);
-            nextBlock.SetActive(true);
-        }
+        GeneratePlanterBox(amountToGenerate);
 
 
         // Generate
@@ -182,6 +158,35 @@ public class MainGenerator : MonoBehaviour
 
             nextBlock.transform.position = new Vector3(xPosition, currentLevel, 0);
             nextBlock.SetActive(true);           
+        }
+    }
+
+    void GeneratePlanterBox(int numberOfTiles)
+    {
+        // Create seperate platform for them
+        int plantIndex;
+        if (gameManager.ShouldCreateNextPlantBox(out plantIndex))
+        {
+            var level = currentLevel + Random.Range(3, 4);
+
+            var xPos = Random.Range(0, numberOfTiles) + generatorManager.LastBlockX;
+
+            GameObject nextBlock = RunnerObject.GetRunnerObject(block.gameObject);
+            nextBlock.transform.position = new Vector3(xPos, level - 1, 0);
+            nextBlock.SetActive(true);
+
+            var newBox = PlanterBox.GetPlanterObject(plantingBox);
+            newBox.SetIndex(plantIndex);
+            newBox.transform.position = new Vector3(xPos + 1, level, 0);
+            newBox.gameObject.SetActive(true);
+
+            nextBlock = RunnerObject.GetRunnerObject(block.gameObject);
+            nextBlock.transform.position = new Vector3(xPos + 2, level - 1, 0);
+            nextBlock.SetActive(true);
+
+            nextBlock = RunnerObject.GetRunnerObject(block.gameObject);
+            nextBlock.transform.position = new Vector3(xPos + 1, level - 1, 0);
+            nextBlock.SetActive(true);
         }
     }
 }
