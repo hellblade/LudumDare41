@@ -13,6 +13,11 @@ public class CoinPickup : Pickup
         }
     }
 
+    public override GameObject Spawn(float x, float y)
+    {
+        throw new System.NotImplementedException();
+    }
+
     protected override bool OnPickup(Component target)
     {
         var inventory = target as InventoryManager;

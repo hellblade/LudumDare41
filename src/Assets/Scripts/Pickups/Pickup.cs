@@ -37,4 +37,6 @@ public abstract class Pickup : MonoBehaviour
     /// </summary>
     /// <param name="target">Target.</param>
     protected abstract bool OnPickup(Component target);
+
+    public abstract GameObject Spawn(float x, float y);
 }
