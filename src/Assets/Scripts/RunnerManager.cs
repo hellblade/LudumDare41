@@ -42,6 +42,8 @@ public class RunnerManager : MonoBehaviour
     int nextPlantId;
     float nextPlantDistance;
 
+    int additionalScore;
+
     private void Awake()
     {
         BestScore = PlayerPrefs.GetInt(BestScorePref, 0);
@@ -94,7 +96,7 @@ public class RunnerManager : MonoBehaviour
 
     public int GetScore()
     {
-        return Mathf.FloorToInt(distanceTravelled);
+        return Mathf.FloorToInt(distanceTravelled) + additionalScore;
     }
 
     void SetNextPlant()
@@ -118,6 +120,7 @@ public class RunnerManager : MonoBehaviour
 
     public void StartGame()
     {
+        additionalScore = 0;
         nextPlantId = 0;
         nextPlantDistance = 0;
         SetNextPlant();
@@ -164,4 +167,15 @@ public class RunnerManager : MonoBehaviour
         }
     }
 
+    public void ReduceDifficulty()
+    {
+        Difficulty /= 2;
+        currentSpeed = Mathf.Max(initialSpeed, currentSpeed / 2);
+        nextSpeed = currentSpeed * speedIncrease;
+    }
+
+    public void DoubleScore()
+    {
+        additionalScore = GetScore();
+    }
 }

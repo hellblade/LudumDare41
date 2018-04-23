@@ -62,7 +62,7 @@ public class CoinPickup : Pickup
     {
         transform.position -= manager.CurrentMoveSpeed * Time.deltaTime;
 
-        if (transform.position.x < -genManager.ScreenAmountX - 2)
+        if (!manager.IsGameRunning || transform.position.x < -genManager.ScreenAmountX - 2)
         {
             Remove();
         }

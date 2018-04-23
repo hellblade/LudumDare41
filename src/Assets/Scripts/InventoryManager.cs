@@ -30,6 +30,12 @@ public class InventoryManager : MonoBehaviour
         SavePrefs();
     }
 
+    public void AddCoins(int amount)
+    {
+        Coins += amount;
+        SavePrefs();
+    }
+
     public void UseCoins(int amount)
     {
         Coins -= amount;

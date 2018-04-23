@@ -14,4 +14,15 @@ public class Plants : ScriptableObject
     {
         return Random.Range(0, plants.Length);
     }
+
+    public void ReduceDifficulty()
+    {
+        FindObjectOfType<RunnerManager>().ReduceDifficulty();
+    }
+
+    public void DoubleScore()
+    {
+        FindObjectOfType<RunnerManager>().DoubleScore();
+    }
+
 }

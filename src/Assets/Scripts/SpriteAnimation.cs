@@ -24,6 +24,19 @@ public class SpriteAnimation : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
+    private void OnEnable()
+    {
+        if (playOnStart)
+        {
+            PlayAnimation();
+        }
+    }
+
     public Vector2 Bounds
     {
         get { return sprites[currentSprite].bounds.size; }
