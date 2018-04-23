@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GeneratorManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class GeneratorManager : MonoBehaviour
     public int ScreenAmountY { get; private set; }
 
     public float LastBlockX { get; set; }
+
+    public UnityEvent ResolutionChanged = new UnityEvent();
 
 
     StartingGenerator startingGenerator;
@@ -49,6 +52,8 @@ public class GeneratorManager : MonoBehaviour
 
         var player = FindObjectOfType<PlayerController>();
         player.SetXPosition(-ScreenAmountX / 2 + 5);
+
+        ResolutionChanged.Invoke();
     }
 
     public void StartGame()
