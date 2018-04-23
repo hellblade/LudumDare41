@@ -15,9 +15,16 @@ public class StartingGenerator : MonoBehaviour
 
     public void Generate()
     {
+        foreach(var runner in FindObjectsOfType<RunnerObject>())
+        {
+            runner.Remove();
+        }
+
         for (int i = -manager.ScreenAmountX; i < manager.ScreenAmountX / 2; i++)
         {
-            Instantiate(startingBlock, new Vector3(i, 0, 0), Quaternion.identity);
+            GameObject nextBlock = RunnerObject.GetRunnerObject(startingBlock.gameObject);
+            nextBlock.transform.position = new Vector3(i, 0, 0);
+            nextBlock.SetActive(true);
         }
         generatorManager.LastBlockX = manager.ScreenAmountX / 2 - 1;
     }

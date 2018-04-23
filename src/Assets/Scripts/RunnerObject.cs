@@ -8,7 +8,19 @@ public class RunnerObject : MonoBehaviour
     GeneratorManager genManeger;
     [SerializeField] bool storeInObjectPool;
 
-    public static ObjectPool<GameObject> Pool = new ObjectPool<GameObject>();
+    static ObjectPool<GameObject> Pool = new ObjectPool<GameObject>();
+
+    public static GameObject GetRunnerObject(GameObject source)
+    {
+        GameObject result = null;
+
+        if (!Pool.TryGet(ref result))
+        {
+            result = Instantiate(source).gameObject;
+        }
+
+        return result;
+    }
 
     private void Awake()
     {
@@ -22,15 +34,20 @@ public class RunnerObject : MonoBehaviour
 
         if (transform.position.x < -genManeger.ScreenAmountX - 2)
         {
-            gameObject.SetActive(false);
-            if (storeInObjectPool)
-            {              
-                Pool.Free(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            Remove();
+        }
+    }
+
+    public void Remove()
+    {
+        gameObject.SetActive(false);
+        if (storeInObjectPool)
+        {
+            Pool.Free(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 

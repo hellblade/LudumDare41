@@ -36,7 +36,7 @@ public class MainGenerator : MonoBehaviour
         while (true)
         {
             // Generate if we are running low
-            if (generatorManager.LastBlockX < generatorManager.ScreenAmountX * 3)
+            if (gameManager.IsGameRunning && generatorManager.LastBlockX < generatorManager.ScreenAmountX * 3)
             {
                 GenerateNextBlock();
             }
@@ -103,14 +103,8 @@ public class MainGenerator : MonoBehaviour
                 continue;
             }
 
-            GameObject nextBlock = null;
+            GameObject nextBlock = RunnerObject.GetRunnerObject(block.gameObject);
 
-            if (!RunnerObject.Pool.TryGet(ref nextBlock))
-            {
-                nextBlock = Instantiate(block).gameObject;
-            }
-
-           
             nextBlock.transform.position = new Vector3(xPosition, currentLevel, 0);
             nextBlock.SetActive(true);           
         }

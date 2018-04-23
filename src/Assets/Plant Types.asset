@@ -11,3 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab65a2010d90d8640a71b5c98660d48c, type: 3}
   m_Name: Plant Types
   m_EditorClassIdentifier: 
+  plants:
+  - Name: 
+    TurnsToGrow: 0
+    OnUsed:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null

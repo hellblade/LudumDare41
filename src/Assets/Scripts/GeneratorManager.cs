@@ -15,23 +15,25 @@ public class GeneratorManager : MonoBehaviour
 
 
     StartingGenerator startingGenerator;
+    PlayerController player;
 
 
     // Use this for initialization
     void Awake()
     {
-        handleResolutionChanges();
+        HandleResolutionChanges();
 
         startingGenerator = GetComponent<StartingGenerator>();
-        startingGenerator.Generate();
+        player = FindObjectOfType<PlayerController>();
     }
 
     private void FixedUpdate()
     {
         LastBlockX -= gameManager.CurrentMoveSpeed.x * Time.deltaTime;
+        HandleResolutionChanges();
     }
 
-    void handleResolutionChanges()
+    void HandleResolutionChanges()
     {
         if (resolution.x == Screen.width || resolution.y == Screen.height)
             return;
@@ -46,6 +48,15 @@ public class GeneratorManager : MonoBehaviour
         ScreenAmountY = Mathf.CeilToInt(height);
 
         var player = FindObjectOfType<PlayerController>();
+        player.SetXPosition(-ScreenAmountX / 2 + 5);
+    }
+
+    public void StartGame()
+    {
+        startingGenerator.Generate();
+        
+        player.gameObject.SetActive(true);
+        player.Reset();
         player.SetXPosition(-ScreenAmountX / 2 + 5);
     }
 
