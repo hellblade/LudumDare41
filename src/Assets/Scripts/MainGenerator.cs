@@ -109,7 +109,7 @@ public class MainGenerator : MonoBehaviour
 
         while (tries++ < maxTries && numberOfHoles > 0)
         {
-            var index = Random.Range(0, amountToGenerate);
+            var index = Random.Range(1, amountToGenerate);
 
             if (canHaveDrop(index, amountToGenerate))
             {
@@ -136,12 +136,12 @@ public class MainGenerator : MonoBehaviour
         int plantIndex;
         if (gameManager.ShouldCreateNextPlantBox(out plantIndex))
         {
-            var level = currentLevel + Random.Range(2, 3);
+            var level = currentLevel + Random.Range(3, 4);
 
             var xPos = Random.Range(0, amountToGenerate) + generatorManager.LastBlockX;
 
             GameObject nextBlock = RunnerObject.GetRunnerObject(block.gameObject);
-            nextBlock.transform.position = new Vector3(xPos, level, 0);
+            nextBlock.transform.position = new Vector3(xPos, level - 1, 0);
             nextBlock.SetActive(true);
 
             var newBox = PlanterBox.GetPlanterObject(plantingBox);
@@ -150,7 +150,11 @@ public class MainGenerator : MonoBehaviour
             newBox.gameObject.SetActive(true);
 
             nextBlock = RunnerObject.GetRunnerObject(block.gameObject);
-            nextBlock.transform.position = new Vector3(xPos + 2, level, 0);
+            nextBlock.transform.position = new Vector3(xPos + 2, level - 1, 0);
+            nextBlock.SetActive(true);
+
+            nextBlock = RunnerObject.GetRunnerObject(block.gameObject);
+            nextBlock.transform.position = new Vector3(xPos + 2, level - 1, 0);
             nextBlock.SetActive(true);
         }
 
