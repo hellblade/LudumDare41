@@ -5,7 +5,7 @@ using UnityEngine;
 public class RunnerObject : MonoBehaviour
 {
     RunnerManager manager;
-    GeneratorManager genManeger;
+    GeneratorManager genManager;
     [SerializeField] bool storeInObjectPool;
 
     static ObjectPool<GameObject> Pool = new ObjectPool<GameObject>();
@@ -25,14 +25,14 @@ public class RunnerObject : MonoBehaviour
     private void Awake()
     {
         manager = FindObjectOfType<RunnerManager>();
-        genManeger = FindObjectOfType<GeneratorManager>();
+        genManager = FindObjectOfType<GeneratorManager>();
     }
 
     private void FixedUpdate()
     {
         transform.position -= manager.CurrentMoveSpeed * Time.deltaTime;
 
-        if (transform.position.x < -genManeger.ScreenAmountX - 2)
+        if (transform.position.x < -genManager.ScreenAmountX - 2)
         {
             Remove();
         }

@@ -15,6 +15,7 @@ public class RunnerManager : MonoBehaviour
     [SerializeField] float difficultySpeedUp = 0.9f;
     [SerializeField] UnityEvent gameStarted = new UnityEvent();
     [SerializeField] UnityEvent gameEnded = new UnityEvent();
+    [SerializeField] float distanceBetweenPlants = 50;
     GeneratorManager generator;
 
     public Vector3 CurrentMoveSpeed { get; private set; }
@@ -37,6 +38,9 @@ public class RunnerManager : MonoBehaviour
     float currentSpeed;
     float nextSpeed;
     float nextDifficulty;
+
+    int nextPlantId;
+    float nextPlantDistance;
 
     private void Awake()
     {
@@ -91,8 +95,31 @@ public class RunnerManager : MonoBehaviour
         return Mathf.FloorToInt(distanceTravelled);
     }
 
+    void SetNextPlant()
+    {
+        nextPlantId++;
+        nextPlantDistance += distanceBetweenPlants + Random.Range(-distanceBetweenPlants / 4, distanceBetweenPlants / 4);
+    }
+
+    public bool ShouldCreateNextPlantBox(out int index)
+    {
+        index = nextPlantId;
+
+        if (distanceTravelled > nextPlantDistance)
+        {
+            SetNextPlant();
+            return true;
+        }
+
+        return false;
+    }
+
     public void StartGame()
     {
+        nextPlantId = 0;
+        nextPlantDistance = 0;
+        SetNextPlant();
+
         currentSpeed = initialSpeed;
         nextSpeed = initialSpeed * speedIncrease;
         distanceTravelled = 0;

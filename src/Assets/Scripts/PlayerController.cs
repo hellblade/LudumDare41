@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour
                 doJump = true;
                 wantToJump = false;
             }
+            // TODO: Dampen it once released? 
         }
         else
         {

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenuAttribute(menuName = "Collections/Plants")]
 public class Plants : ScriptableObject
@@ -9,5 +8,10 @@ public class Plants : ScriptableObject
     public Plant GetPlant(int index)
     {
         return plants[index];
+    }
+
+    public int GetRandomPlantIndex()
+    {
+        return Random.Range(0, plants.Length);
     }
 }

@@ -5,20 +5,29 @@ using UnityEngine;
 public class MainGenerator : MonoBehaviour
 {
     [SerializeField] RunnerObject block;
+    [SerializeField] PlanterBox plantingBox;
 
     [SerializeField] RunnerManager gameManager;
     [SerializeField] GeneratorManager generatorManager;
 
     [SerializeField] int maxDropsInRow = 2;
 
+    [SerializeField] float maxLevel = 5;
+    [SerializeField] float minLevel = -2;
+
     float currentLevel = 0;
     HashSet<int> holes = new HashSet<int>();
     HashSet<int> rises = new HashSet<int>();
+    int lastDifficulty;
 
+    void OnGameStart()
+    {
+        lastDifficulty = 1;
+    }
 
     private void Awake()
     {
-
+        gameManager.GameStarted.AddListener(OnGameStart);
     }
 
     private void Start()
@@ -70,16 +79,35 @@ public class MainGenerator : MonoBehaviour
         return true;
     }
 
+    const int maxTries = 25;
+
     void GenerateNextBlock()
     {
+        int currentIntDifficulty = (int)gameManager.Difficulty;
+
+        if (lastDifficulty != currentIntDifficulty)
+        {
+            lastDifficulty = currentIntDifficulty;
+            float change = Random.Range(-1, 2);
+
+            if (Mathf.Abs(change) != 0)
+            {
+                change *= Random.Range(0.5f, 1.0f);
+                currentLevel = Mathf.Clamp(currentLevel + change, minLevel, maxLevel);
+            }
+          
+        }
+
         holes.Clear();
         rises.Clear();
 
-        int amountToGenerate = (int)(generatorManager.ScreenAmountX * gameManager.Difficulty);
+        int amountToGenerate = (int)(generatorManager.ScreenAmountX * 2);
 
-        int numberOfHoles = (int)(gameManager.Difficulty * 2);
+        int numberOfHoles = Random.Range(0, Mathf.Max(generatorManager.ScreenAmountX / 2, (int)(gameManager.Difficulty * 2)));
 
-        while (numberOfHoles > 0)
+        int tries = 0;
+
+        while (tries++ < maxTries && numberOfHoles > 0)
         {
             var index = Random.Range(0, amountToGenerate);
 
@@ -88,6 +116,41 @@ public class MainGenerator : MonoBehaviour
                 numberOfHoles--;
                 holes.Add(index);
             }
+        }
+
+        int numberOfRises = Random.Range(0, Mathf.Max(generatorManager.ScreenAmountX, (int)(gameManager.Difficulty * 3)));
+        tries = 0;
+
+        while (tries++ < maxTries && numberOfRises > 0)
+        {
+            var index = Random.Range(0, amountToGenerate);
+
+            if (!holes.Contains(index))
+            {
+                numberOfRises--;
+                rises.Add(index);
+            }
+        }
+
+        // Create seperate platform for them
+        int plantIndex;
+        if (gameManager.ShouldCreateNextPlantBox(out plantIndex))
+        {
+            var level = currentLevel + Random.Range(2, 3);
+
+            var xPos = Random.Range(0, amountToGenerate) + generatorManager.LastBlockX;
+
+            GameObject nextBlock = RunnerObject.GetRunnerObject(block.gameObject);
+            nextBlock.transform.position = new Vector3(xPos, level, 0);
+            nextBlock.SetActive(true);
+
+            plantingBox.SetIndex(plantIndex);
+            plantingBox.transform.position = new Vector3(xPos + 1, level, 0);
+            plantingBox.gameObject.SetActive(true);
+
+            nextBlock = RunnerObject.GetRunnerObject(block.gameObject);
+            nextBlock.transform.position = new Vector3(xPos + 2, level, 0);
+            nextBlock.SetActive(true);
         }
 
 
@@ -104,6 +167,13 @@ public class MainGenerator : MonoBehaviour
             }
 
             GameObject nextBlock = RunnerObject.GetRunnerObject(block.gameObject);
+
+            float y = currentLevel;
+
+            if (rises.Contains(i))
+            {
+                y += 1;
+            }
 
             nextBlock.transform.position = new Vector3(xPosition, currentLevel, 0);
             nextBlock.SetActive(true);           
