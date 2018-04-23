@@ -32,11 +32,13 @@ public class PlayerController : MonoBehaviour
     Vector3 initialPosition;
 
     GeneratorManager manager;
+    AudioSource audioSource;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         manager = FindObjectOfType<GeneratorManager>();
+        audioSource = GetComponent<AudioSource>();
 
         var size = GetComponent<SpriteRenderer>().bounds.extents;
         ySize = size.y;
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviour
         if (jumpPressed)
         {
             jumpTime = maxJumpTime;
+            audioSource.Play();
         }
 
         doJump = false;

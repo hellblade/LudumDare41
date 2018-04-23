@@ -5,6 +5,7 @@ using UnityEngine;
 public class MainGenerator : MonoBehaviour
 {
     [SerializeField] RunnerObject block;
+    [SerializeField] CoinPickup coin;
     [SerializeField] PlanterBox plantingBox;
 
     [SerializeField] RunnerManager gameManager;
@@ -134,6 +135,8 @@ public class MainGenerator : MonoBehaviour
 
         GeneratePlanterBox(amountToGenerate);
 
+        GenerateCoins(amountToGenerate);
+
 
         // Generate
         for (int i = 0; i < amountToGenerate; i++)
@@ -158,6 +161,33 @@ public class MainGenerator : MonoBehaviour
 
             nextBlock.transform.position = new Vector3(xPosition, currentLevel, 0);
             nextBlock.SetActive(true);           
+        }
+    }
+
+    void GenerateCoins(int numberOfTiles)
+    {
+        int numberOfGroups = Random.Range(0, 4);
+
+        if (numberOfGroups == 0)
+            return;
+
+        var spacing = numberOfTiles / numberOfGroups;
+        var xPosition = generatorManager.LastBlockX + 1;
+
+        while (numberOfGroups-- > 0)
+        {
+            int coins = Random.Range(1, Mathf.Max(numberOfTiles / 6, (int)(gameManager.Difficulty * 2)));            
+
+            float level = currentLevel + Random.Range(2, 4);            
+
+            for (int i = 0; i < coins; i++)
+            {
+                var xPos = xPosition + Random.Range(spacing * numberOfGroups, spacing * numberOfGroups + spacing);
+
+                CoinPickup nextBlock = CoinPickup.GetObject(coin);
+                nextBlock.transform.position = new Vector3(xPos, level, 0);
+                nextBlock.gameObject.SetActive(true);
+            }
         }
     }
 
