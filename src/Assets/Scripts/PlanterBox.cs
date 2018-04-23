@@ -3,26 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlanterBox : MonoBehaviour
-{   
+{
+    public Plants plantTypes;
     public int index;
 
     public PlantStatus Status { get; private set; }
 
-    int gamePlanted;
-    string plantType;
+    Plant plant;
 
     void Awake()
     {
-        gamePlanted = PlayerPrefs.GetInt(PlantPref(), -1);        
-        plantType = PlayerPrefs.GetString(PlantPref() + "type", "");
+        var gameManager = FindObjectOfType<RunnerManager>();
+
+        var gamePlanted = PlayerPrefs.GetInt(PlantPref(), -1);        
+        var plantType = PlayerPrefs.GetInt(PlantPref() + "type", -1);
 
         Status = PlantStatus.Empty;
 
         if (gamePlanted > -1)
         {
+            plant = plantTypes.GetPlant(plantType);
             Status = PlantStatus.Planted;
 
-
+            if (plant.TurnsToGrow > gameManager.GamesPlayed - gamePlanted)
+            {
+                Status = PlantStatus.Ready;
+            }
         }
     }
 

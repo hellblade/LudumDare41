@@ -5,4 +5,9 @@ using UnityEngine;
 public class Plants : ScriptableObject
 {
     [SerializeField] Plant[] plants;
+
+    public Plant GetPlant(int index)
+    {
+        return plants[index];
+    }
 }
