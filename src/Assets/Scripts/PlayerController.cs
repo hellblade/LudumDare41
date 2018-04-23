@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (InputHelper.isJumpJustDown())
         {
             wantToJump = true;
         }
@@ -68,8 +68,9 @@ public class PlayerController : MonoBehaviour
         if (jumpTime > 0)
         {
             jumpTime -= Time.deltaTime;
+            var isDown = InputHelper.isJumpDown();
 
-            if (!Input.GetButton("Jump") && wantToJump)
+            if (!isDown && wantToJump)
             {                
                 jumpStrength = maxJumpStrength / 2;
                 jumpAmount = Mathf.Sqrt(jumpStrength * jumpHeight * gravity);
@@ -78,7 +79,7 @@ public class PlayerController : MonoBehaviour
                 wantToJump = false;
             }
 
-            if (Input.GetButton("Jump"))
+            if (isDown)
             {
                 jumpStrength += jumpThrust;
                 jumpStrength = Mathf.Clamp(jumpStrength, 0, maxJumpStrength);

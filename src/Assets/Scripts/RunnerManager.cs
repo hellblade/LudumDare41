@@ -62,7 +62,7 @@ public class RunnerManager : MonoBehaviour
         if (IsGameRunning)
             return;
 
-        if (Input.GetButtonDown("Jump"))
+        if (InputHelper.isJumpJustDown())
         {
             StartGame();
         }
