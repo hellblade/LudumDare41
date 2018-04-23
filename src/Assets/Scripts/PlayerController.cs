@@ -68,7 +68,17 @@ public class PlayerController : MonoBehaviour
         if (jumpTime > 0)
         {
             jumpTime -= Time.deltaTime;
-            if (Input.GetButton("Jump") || wantToJump)
+
+            if (!Input.GetButton("Jump") && wantToJump)
+            {                
+                jumpStrength = maxJumpStrength / 2;
+                jumpAmount = Mathf.Sqrt(jumpStrength * jumpHeight * gravity);
+
+                doJump = true;
+                wantToJump = false;
+            }
+
+            if (Input.GetButton("Jump"))
             {
                 jumpStrength += jumpThrust;
                 jumpStrength = Mathf.Clamp(jumpStrength, 0, maxJumpStrength);
